@@ -1,3 +1,12 @@
 [submodule "deps/cargo"]
 	path = deps/cargo
 	url = https://github.com/JoakimSoderberg/cargo.git
+[submodule "deps/libcodemsg"]
+	path = deps/libcodemsg
+	url = https://github.com/madwyn/libcodemsg.git
+[submodule "deps/zlib"]
+	path = deps/zlib
+	url = https://github.com/madler/zlib.git
+[submodule "deps/minizip"]
+	path = deps/minizip
+	url = https://github.com/nmoinvaz/minizip.git
