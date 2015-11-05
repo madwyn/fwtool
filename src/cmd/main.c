@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "cmd.h"
+#include <pack.h>
 
 int
 main(int argc, char **argv) {
@@ -66,6 +67,9 @@ main(int argc, char **argv) {
             cargo_print_usage(cargo, CARGO_USAGE_FULL);
         } else if (extract) {
             // implement extract
+            if (!unpack(input, output)) {
+                printf("%s\n", get_last_err());
+            }
         } else if (create) {
             // implement create
         }
