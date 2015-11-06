@@ -54,12 +54,12 @@ MSG_CODE ZipFile::_open(const string &file_name) {
     if (fs_exists(file_name)) {
 
         // load file
-        file = unzOpen64(file_name.c_str());
+        _file = unzOpen64(file_name.c_str());
 
         // file can be open
-        if (nullptr != file) {
+        if (nullptr != _file) {
             // check zip information
-            int err = unzGetGlobalInfo64(file, &info_g);
+            int err = unzGetGlobalInfo64(_file, &_info_g);
 
             if (UNZ_OK != err) {
                 ret = ZIP_FILE_INFO_INVALID;
@@ -75,18 +75,18 @@ MSG_CODE ZipFile::_open(const string &file_name) {
 }
 
 void ZipFile::_close(void) {
-    if (nullptr != file) {
-        unzClose(file);
-        file = nullptr;
+    if (nullptr != _file) {
+        unzClose(_file);
+        _file = nullptr;
     }
 }
 
 MSG_CODE ZipFile::_loop(auto func, auto stop) {
     auto ret = MSG_OK;
 
-    if (nullptr != file) {
+    if (nullptr != _file) {
         // set to head
-        if (UNZ_OK == unzGoToFirstFile(file)) {
+        if (UNZ_OK == unzGoToFirstFile(_file)) {
             unz_file_info64 file_info;
 
             char *path_in_zip = (char *)malloc(ZIP_MAX_PATH);
@@ -95,7 +95,7 @@ MSG_CODE ZipFile::_loop(auto func, auto stop) {
 
                 for (auto err = UNZ_OK; (UNZ_END_OF_LIST_OF_FILE != err) && !stop(); ) {
                     // get the current file
-                    err = unzGetCurrentFileInfo64(file, &file_info, path_in_zip, ZIP_MAX_PATH, nullptr, 0, nullptr, 0);
+                    err = unzGetCurrentFileInfo64(_file, &file_info, path_in_zip, ZIP_MAX_PATH, nullptr, 0, nullptr, 0);
 
                     if (UNZ_OK == err) {
                         // process the file
@@ -105,7 +105,7 @@ MSG_CODE ZipFile::_loop(auto func, auto stop) {
                             break;
                         }
 
-                        err = unzGoToNextFile(file);
+                        err = unzGoToNextFile(_file);
                     } else {
                         ret = ZIP_FILE_ERR_GET_CUR_INFO;
                         break;
@@ -129,7 +129,7 @@ MSG_CODE ZipFile::_extract_cur(const string &file_dst) {
     MSG_CODE ret = MSG_OK;
 
     // open file with null password
-    int err = unzOpenCurrentFilePassword(file, nullptr);
+    int err = unzOpenCurrentFilePassword(_file, nullptr);
 
     // file can be open
     if (UNZ_OK == err) {
@@ -142,22 +142,23 @@ MSG_CODE ZipFile::_extract_cur(const string &file_dst) {
 
             if (nullptr != buf) {
                 // extract file
-                do {
-                    // read data
-                    err = unzReadCurrentFile(file, buf, ZIP_BUF_LEN);
+                err = unzReadCurrentFile(_file, buf, ZIP_BUF_LEN);
 
-                    // err is the length of data been read if > 0
-                    if (err > 0) {
-                        // write buffer content to file
-                        if (1 != fwrite(buf, err, 1, file_out)) {
-                            ret = UNZIP_ERR_WRITE_BUF_TO_FILE;
-                            break;
-                        }
-                    } else if (err < 0) { // err is the error code if < 0
-                        ret = UNZIP_ERR_READ_FILE_TO_BUF;
+                // err is the number of bytes read
+                while (err > 0) {
+                    // write to file
+                    if (1 == fwrite(buf, err, 1, file_out)) {
+                        // read again
+                        err = unzReadCurrentFile(_file, buf, ZIP_BUF_LEN);
+                    } else {
+                        ret = UNZIP_ERR_WRITE_BUF_TO_FILE;
                         break;
                     }
-                } while (err > 0);  // err is the number of bytes read
+                }
+
+                if (err < 0) {
+                    ret = UNZIP_ERR_READ_FILE_TO_BUF;
+                }
 
                 // free buffer
                 free(buf);
@@ -172,7 +173,7 @@ MSG_CODE ZipFile::_extract_cur(const string &file_dst) {
         }
 
         // close current zip file
-        unzCloseCurrentFile(file);
+        unzCloseCurrentFile(_file);
     } else {
         ret = UNZIP_ERR_OPEN_CUR_ZIP_FILE;
     }
