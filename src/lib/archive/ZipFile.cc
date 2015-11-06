@@ -186,15 +186,13 @@ MSG_CODE ZipFile::extract(const string &file_in, const string &dir_dst, string &
     MSG_CODE ret = _open(file_in);
 
     if (MSG_OK == ret) {
-        string file_name_fwd_in_zip = "";
-
-        ret = _search(FWD_FILE_NAME_PREFIX, file_name_fwd_in_zip);
+        ret = _search(FWD_FILE_NAME_PREFIX, file_name_fwd);
 
         if (MSG_OK == ret) {
             ret = _extract_all(dir_dst);
 
             if (MSG_OK == ret) {
-                file_name_fwd = dir_dst + file_name_fwd_in_zip;
+                file_name_fwd = dir_dst + file_name_fwd;
             }
         }
 
