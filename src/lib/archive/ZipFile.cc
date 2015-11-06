@@ -180,15 +180,49 @@ MSG_CODE ZipFile::_extract_cur(const string &file_dst) {
     return ret;
 }
 
-MSG_CODE ZipFile::extract(const string &file_in, const string &dir_dst) {
+#define FWD_FILE_NAME_PREFIX "FirmwareData"
+
+MSG_CODE ZipFile::extract(const string &file_in, const string &dir_dst, string &file_name_fwd) {
     MSG_CODE ret = _open(file_in);
 
     if (MSG_OK == ret) {
-        ret = _extract_all(dir_dst);
+        string file_name_fwd_in_zip = "";
+
+        ret = _search(FWD_FILE_NAME_PREFIX, file_name_fwd_in_zip);
+
+        if (MSG_OK == ret) {
+            ret = _extract_all(dir_dst);
+
+            if (MSG_OK == ret) {
+                file_name_fwd = dir_dst + file_name_fwd_in_zip;
+            }
+        }
+
         _close();
     }
 
     return ret;
 }
+
+MSG_CODE ZipFile::_search(const string &name, string &path_in_zip) {
+    auto got = false;
+
+    auto stop = [&got]() {
+        return got;
+    };
+
+    auto match = [&name, &got, &path_in_zip](const char *cur_name) {
+        // use the base name only?
+        const char *base_name = get_base_name(cur_name);
+        if (nullptr != strstr(base_name, name.c_str())) {
+            got = true;
+            path_in_zip = cur_name;
+        }
+        return MSG_OK;
+    };
+
+    return _loop(match, stop);
+}
+
 
 }
