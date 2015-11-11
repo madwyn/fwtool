@@ -3,6 +3,8 @@ project(libfwtool)
 set(fw_archive_SRCS
         archive/ZipFile.cc
         archive/ZipFile.hh
+        archive/HeaderMagic.cc
+        archive/HeaderMagic.hh
         archive/FirmwareData.cc
         archive/FirmwareData.hh
         archive/DataChunk.cc

@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <string>
 #include <message_def.h>
+#include "HeaderMagic.hh"
 
 namespace fw {
 
@@ -42,12 +43,12 @@ public:
     static MSG_CODE pack(const string &dir_in, const string &file_dst);
     static MSG_CODE valid(const string &file_name);
 
-    class Header {
+    class Header : public HeaderMagic {
     public:
-        static const uint8_t header_magic[FWD_HEADER_MAGIC_LEN];
-        static bool valid(const uint8_t *header, const size_t header_len);
-        static void write(uint8_t *buf);
-        static bool write(FILE *file);
+        Header() {
+            static const uint8_t header[] = {0x89, 0x55, 0x46, 0x55, 0x0d, 0x0a, 0x1a, 0x0a};
+            init(header, sizeof(header));
+        }
     };
 
 };

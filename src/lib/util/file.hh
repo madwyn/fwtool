@@ -104,6 +104,7 @@ fs_compare_name(const void *const a, const void *const b) {
 }
 
 
+// must free the returned pointer after use
 inline struct dirent **
 fs_ls_sort(DIR *dir) {
     struct dirent **list = nullptr;
