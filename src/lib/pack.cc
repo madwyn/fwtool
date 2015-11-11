@@ -6,6 +6,7 @@
 #include "archive/ZipFile.hh"
 #include "archive/FirmwareData.hh"
 
+
 using std::string;
 
 using fw::ZipFile;
@@ -23,7 +24,20 @@ unpack(const char *const file_in, const char *const dir_out) {
     // search the firmware data first
     string file_name_fwd = "";
 
-    g_pack_err = zip_file.extract(file_in, dir_out, file_name_fwd);
+    g_pack_err = ZipFile::valid(file_in);
+
+    // input is the zip file
+    if (MSG_OK == g_pack_err) {
+        printf("input file is ZIP\n");
+        g_pack_err = zip_file.extract(file_in, dir_out, file_name_fwd);
+    } else {
+        g_pack_err = FirmwareData::valid(file_in);
+
+        if (MSG_OK == g_pack_err) {
+            printf("input file is FirmwareData\n");
+            file_name_fwd = file_in;
+        }
+    }
 
     if (MSG_OK == g_pack_err) {
         printf("FirmwareData: %s\n", file_name_fwd.c_str());
@@ -40,6 +54,7 @@ unpack(const char *const file_in, const char *const dir_out) {
 
             if (MSG_OK == g_pack_err) {
                 printf("FDAT: %s\n", file_name_FDAT.c_str());
+                string file_name_FDAT_dec = file_name_FDAT + ".dec";
             }
         }
     }
