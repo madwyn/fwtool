@@ -13,8 +13,6 @@ MSG_CODE ZipFile::_extract_all(const string &dir_dst) {
     auto _extract = [this, &dir_dst](const char *path_in_zip) {
         MSG_CODE ret = MSG_OK;
 
-        printf("extract file %s\n", path_in_zip);
-
         // detect if it's a file or directory
         // extract the base name
         const char *base_name = get_base_name(path_in_zip);

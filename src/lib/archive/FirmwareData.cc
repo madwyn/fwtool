@@ -1,7 +1,5 @@
 #include <string.h>
 #include "FirmwareData.hh"
-#include "../crypto/Cypher.hh"
-#include "../crypto/CypherFactory.hh"
 #include "DataChunk.hh"
 #include "../util/dir.h"
 
