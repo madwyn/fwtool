@@ -15,6 +15,7 @@ using std::string;
 
 class ZipFile {
 public:
+    static MSG_CODE valid(const string &file_name);
     MSG_CODE extract(const string &file_in, const string &dir_dst, string &file_name_fwd);
 
 private:

@@ -222,4 +222,29 @@ MSG_CODE ZipFile::_search(const string &name, string &path_in_zip) {
 }
 
 
+MSG_CODE ZipFile::valid(const string &file_name) {
+    MSG_CODE ret = MSG_OK;
+
+    // load file
+    unzFile file = unzOpen64(file_name.c_str());
+
+    // file can be open
+    if (nullptr != file) {
+        // check zip information
+        unz_global_info64 info;
+
+        int err = unzGetGlobalInfo64(file, &info);
+
+        if (UNZ_OK != err) {
+            ret = ZIP_FILE_INFO_INVALID;
+        }
+
+        unzClose(file);
+    } else {
+        ret = ZIP_FILE_INVALID;
+    }
+
+    return ret;
+}
+
 }
