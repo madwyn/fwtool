@@ -3,6 +3,10 @@ project(libfwtool)
 set(fw_archive_SRCS
         archive/ZipFile.cc
         archive/ZipFile.hh
+        archive/FirmwareData.cc
+        archive/FirmwareData.hh
+        archive/DataChunk.cc
+        archive/DataChunk.hh
 )
 
 set(libfwtool_SRCS

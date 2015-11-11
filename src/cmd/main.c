@@ -72,6 +72,9 @@ main(int argc, char **argv) {
             }
         } else if (create) {
             // implement create
+            if (!pack(input, output)) {
+                printf("%s\n", get_last_err());
+            }
         }
     }
 

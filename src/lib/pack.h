@@ -8,6 +8,9 @@ extern "C" {
 int
 unpack(const char *const file_input, const char *const dir_output);
 
+int
+pack(const char *const dir_input, const char *const file_output);
+
 const char *
 get_last_err(void);
 
