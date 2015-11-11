@@ -24,4 +24,8 @@ inline CHUNK_TYPE CHUNK_NAME_TO_TYPE(const char *name) {
     return (CHUNK_TYPE)STRING_TO_ENUM_STARTS(name, CHUNK_STRINGS, CHUNK_NUM);
 }
 
+inline CHUNK_TYPE FILE_NAME_TO_TYPE(const char *name) {
+    return (CHUNK_TYPE)STRING_TO_ENUM_CONTAINS(name, CHUNK_STRINGS, CHUNK_NUM);
+}
+
 #endif //FWT_CHUNK_TYPE_H
