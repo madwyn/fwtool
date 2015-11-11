@@ -58,7 +58,6 @@ fs_save_to(FILE *file_in, size_t len, const char * const file_name) {
 
     if (nullptr != file_out) {
         ret = fs_cp(file_in, len, file_out);
-
         fclose(file_out);
     }
 

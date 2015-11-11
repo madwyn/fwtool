@@ -18,10 +18,19 @@ void DataChunk::Header::read(const uint8_t * const data) {
     type = CHUNK_NAME_TO_TYPE((char *)data + 4);    // read type
 }
 
-void DataChunk::Header::read(FILE *file) {
-    HEADER header;
-    fread(&header, sizeof(header), 1, file);
-    return read((const uint8_t * const) &header);
+
+bool DataChunk::Header::read(FILE *file) {
+    if (!feof(file)) {
+        HEADER header;
+
+        // read one header
+        if (1 == fread(&header, sizeof(header), 1, file)) {
+            read((const uint8_t * const) &header);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -37,22 +46,22 @@ void DataChunk::Header::write(FILE *file) {
 }
 
 
-MSG_CODE DataChunk::save(FILE *file, const string &dir_dst) {
+MSG_CODE DataChunk::save(FILE *file, const string &dir_dst, string &file_name_FDAT) {
     MSG_CODE ret = MSG_OK;
 
     Header header;
 
-    int i = 0;
-
-    while (!feof(file)) {
-        header.read(file);
-
+    for (int i = 0; header.read(file); ++i) {
         // output format  dir/n.XXXX.bin
-        string file_name_out = dir_dst + "/" + std::to_string(i++) + "." + CHUNK_STRINGS[header.type] + ".bin";
+        string file_name_out = dir_dst + "/" + std::to_string(i) + "." + CHUNK_STRINGS[header.type] + ".bin";
 
         if (!fs_save_to(file, header.len, file_name_out.c_str())) {
             ret = CHUNK_SAVE_TO_FILE_ERR;
             break;
+        }
+
+        if (FDAT == header.type) {
+            file_name_FDAT = file_name_out;
         }
     }
 

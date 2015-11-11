@@ -36,7 +36,7 @@ MSG_CODE FirmwareData::valid(const string &file_name) {
 
 
 
-MSG_CODE FirmwareData::extract(const string &file_in, const string &dir_dst) {
+MSG_CODE FirmwareData::extract(const string &file_in, const string &dir_dst, string &file_name_FDAT) {
     // check validity
     MSG_CODE ret = valid(file_in);
 
@@ -51,7 +51,7 @@ MSG_CODE FirmwareData::extract(const string &file_in, const string &dir_dst) {
         fseek(file, FWD_HEADER_MAGIC_LEN, SEEK_SET);
 
         // save the chunk to file
-        ret = DataChunk::save(file, dir_dst.c_str());
+        ret = DataChunk::save(file, dir_dst.c_str(), file_name_FDAT);
     }
 
     return ret;

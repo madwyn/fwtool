@@ -38,7 +38,7 @@ typedef struct {
 
 class FirmwareData {
 public:
-    static MSG_CODE extract(const string &file_in, const string &dir_dst);
+    static MSG_CODE extract(const string &file_in, const string &dir_dst, string &file_name_FDAT);
     static MSG_CODE pack(const string &dir_in, const string &file_dst);
     static MSG_CODE valid(const string &file_name);
 

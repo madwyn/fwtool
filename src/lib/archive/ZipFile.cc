@@ -191,7 +191,7 @@ MSG_CODE ZipFile::extract(const string &file_in, const string &dir_dst, string &
             ret = _extract_all(dir_dst);
 
             if (MSG_OK == ret) {
-                file_name_fwd = dir_dst + file_name_fwd;
+                file_name_fwd = dir_dst + "/" + file_name_fwd;
             }
         }
 

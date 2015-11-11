@@ -33,10 +33,14 @@ unpack(const char *const file_in, const char *const dir_out) {
         if (MSG_OK == g_pack_err) {
             printf("FirmwareData is valid\n");
 
-            // remove the extension or add something extra
             string dir_fwd_out = string(dir_out) + "/" + DIR_FWD_OUTPUT;
+            string file_name_FDAT = "";
 
-            g_pack_err = FirmwareData::extract(file_name_fwd, dir_fwd_out);
+            g_pack_err = FirmwareData::extract(file_name_fwd, dir_fwd_out, file_name_FDAT);
+
+            if (MSG_OK == g_pack_err) {
+                printf("FDAT: %s\n", file_name_FDAT.c_str());
+            }
         }
     }
 
