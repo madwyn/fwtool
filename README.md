@@ -8,4 +8,7 @@ The goal is to write a modular, clear and easy to understand tool for packing/un
 
 # Progress
 
-2015-11-05 Extract the zip file.
+Unpack/pack FDAT chunk.
+Decrypt/encrypt FDAT chunk.
+~~Unpack/pack the FirmwareData chunks~~
+~~Extract the zip file.~~
