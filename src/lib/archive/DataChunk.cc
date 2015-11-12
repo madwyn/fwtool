@@ -14,7 +14,7 @@ namespace fw {
 
 
 void DataChunk::Header::read(const uint8_t * const data) {
-    len  = read_u32_be(data);   // the first 4 bytes is the length, BIG-endian
+    GET_U32_BE(len, data, 0);   // the first 4 bytes is the length, BIG-endian
     type = CHUNK_NAME_TO_TYPE((char *)data + 4);    // read type
 }
 
@@ -35,7 +35,7 @@ bool DataChunk::Header::read(FILE *file) {
 
 
 void DataChunk::Header::write(uint8_t *data) {
-    write_u32_be(data, len);
+    PUT_U32_BE(len, data, 0);
     memcpy(data + sizeof(len), CHUNK_STRINGS[type], strlen(CHUNK_STRINGS[type]));
 }
 
