@@ -10,3 +10,6 @@
 [submodule "deps/minizip"]
 	path = deps/minizip
 	url = https://github.com/nmoinvaz/minizip.git
+[submodule "deps/mbedtls"]
+	path = deps/mbedtls
+	url = https://github.com/ARMmbed/mbedtls.git
