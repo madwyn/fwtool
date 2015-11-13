@@ -5,12 +5,15 @@
 #include "pack.h"
 #include "archive/ZipFile.hh"
 #include "archive/FirmwareData.hh"
+#include "archive/FDAT.hh"
+#include "type/chunk_type.h"
 
 
 using std::string;
 
 using fw::ZipFile;
 using fw::FirmwareData;
+using fw::FDAT;
 
 
 static MSG_CODE g_pack_err = MSG_OK;
@@ -54,7 +57,10 @@ unpack(const char *const file_in, const char *const dir_out) {
 
             if (MSG_OK == g_pack_err) {
                 printf("FDAT: %s\n", file_name_FDAT.c_str());
+
                 string file_name_FDAT_dec = file_name_FDAT + ".dec";
+
+                g_pack_err = fw::FDAT::dec(file_name_FDAT, file_name_FDAT_dec);
             }
         }
     }
