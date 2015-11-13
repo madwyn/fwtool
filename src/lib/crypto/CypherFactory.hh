@@ -31,7 +31,7 @@ public:
         _dest();
     }
 
-    static size_t max_blk_len;
+    static size_t max_sec_len;
 
 private:
     CypherFactory() {_init();}

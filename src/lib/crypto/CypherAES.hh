@@ -13,7 +13,7 @@ using std::make_unique;
 
 class CypherAES : public Cypher {
 public:
-    virtual size_t sec_len() override {return FDAT_AES_SECTOR_LEN;};
+    virtual size_t get_sec_len() override {return FDAT_AES_SECTOR_LEN;};
     virtual unique_ptr<Cypher> create() override {
         return make_unique<CypherAES>();
     };

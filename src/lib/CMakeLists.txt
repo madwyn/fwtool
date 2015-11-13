@@ -14,7 +14,6 @@ set(fw_archive_SRCS
 )
 
 set(fw_crypto_SRCS
-        crypto/Cypher.cc
         crypto/Cypher.hh
         crypto/CypherAES.cc
         crypto/CypherAES.hh

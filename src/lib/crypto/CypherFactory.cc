@@ -10,11 +10,11 @@ void CypherFactory::_init(void) {
     _cypher_map[ENC_AES]  = new CypherAES();
     _cypher_map[ENC_SHA1] = new CypherSHA1();
 
-    max_blk_len = 0;
+    max_sec_len = 0;
 
     for (auto const it : _cypher_map) {
-        if (it.second->sec_len() > max_blk_len) {
-            max_blk_len = it.second->sec_len();
+        if (it.second->get_sec_len() > max_sec_len) {
+            max_sec_len = it.second->get_sec_len();
         }
     }
 }
@@ -33,7 +33,7 @@ unique_ptr<Cypher> CypherFactory::_get_cypher(const uint8_t *data, size_t data_l
     uint8_t *buf     = nullptr;
 
     for (auto const it : _cypher_map) {
-        buf_len = it.second->sec_len();
+        buf_len = it.second->get_sec_len();
         buf = (uint8_t *)malloc(buf_len);
         if (nullptr != buf) {
             memcpy(buf, data, buf_len);
@@ -62,15 +62,15 @@ unique_ptr<Cypher> CypherFactory::_get_cypher(const string &file_name) {
 
     if (nullptr != file) {
         // read head
-        uint8_t *buf = (uint8_t *)malloc(max_blk_len);
+        uint8_t *buf = (uint8_t *)malloc(max_sec_len);
 
         // the actual length
-        size_t data_len = fread(buf, 1, max_blk_len, file);
+        size_t data_len = fread(buf, 1, max_sec_len, file);
 
         // reading OK
         if (!ferror(file)) {
             // read block length amount of data
-            if (data_len == max_blk_len) {
+            if (data_len == max_sec_len) {
                 cypher = _get_cypher(buf, data_len);
             }
         }
@@ -85,7 +85,7 @@ unique_ptr<Cypher> CypherFactory::_get_cypher(const string &file_name) {
 
 CypherMap      CypherFactory::_cypher_map;
 CypherFactory *CypherFactory::_instance = nullptr;
-size_t         CypherFactory::max_blk_len = 0;
+size_t         CypherFactory::max_sec_len = 0;
 
 
 }

@@ -22,13 +22,10 @@ typedef enum {
 
 class Cypher {
 public:
-    MSG_CODE dec_file(const string &file_name_in, const string &file_name_out);
-    MSG_CODE enc_file(const string &file_name_in, const string &file_name_out);
-
     virtual MSG_CODE enc(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
     virtual MSG_CODE dec(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
 
-    virtual size_t sec_len() = 0;
+    virtual size_t get_sec_len() = 0;
     virtual unique_ptr<Cypher> create() = 0;
 
 protected:
