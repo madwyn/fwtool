@@ -11,13 +11,13 @@ namespace fw {
 #endif
 
 
-MSG_CODE CypherAES::enc(const uint8_t *const data, const size_t data_len, uint8_t *buf) {
-    return crypt(data, buf, data_len, MBEDTLS_AES_ENCRYPT);
+MSG_CODE CypherAES::enc(const uint8_t * const input, uint8_t *output, const size_t len) {
+    return crypt(input, output, len, MBEDTLS_AES_ENCRYPT);
 }
 
 
-MSG_CODE CypherAES::dec(const uint8_t *const data, const size_t data_len, uint8_t *buf) {
-    return crypt(data, buf, data_len, MBEDTLS_AES_DECRYPT);
+MSG_CODE CypherAES::dec(const uint8_t * const input, uint8_t *output, const size_t len) {
+    return crypt(input, output, len, MBEDTLS_AES_DECRYPT);
 }
 
 

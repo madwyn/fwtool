@@ -6,18 +6,18 @@
 
 namespace fw {
 
-#define	FDC_SHA1_BLOCK_LEN	1000
+#define	FDC_SHA1_SECTOR_LEN	1000
 
 
 using std::make_unique;
 
 
 class CypherSHA1: public Cypher {
-    virtual size_t blk_len() override {return FDC_SHA1_BLOCK_LEN;};
+    virtual size_t sec_len() override {return FDC_SHA1_SECTOR_LEN;};
     virtual unique_ptr<Cypher> create() override {return make_unique<CypherSHA1>();};
 
-    MSG_CODE enc(const uint8_t * const data, const size_t data_len, uint8_t *buf);
-    MSG_CODE dec(const uint8_t * const data, const size_t data_len, uint8_t *buf);
+    MSG_CODE enc  (const uint8_t * const input, uint8_t *output, const size_t len);
+    MSG_CODE dec  (const uint8_t * const input, uint8_t *output, const size_t len);
     MSG_CODE crypt(const uint8_t * const input, uint8_t *output, const size_t len);
 };
 

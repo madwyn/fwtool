@@ -13,8 +13,8 @@ void CypherFactory::_init(void) {
     max_blk_len = 0;
 
     for (auto const it : _cypher_map) {
-        if (it.second->blk_len() > max_blk_len) {
-            max_blk_len = it.second->blk_len();
+        if (it.second->sec_len() > max_blk_len) {
+            max_blk_len = it.second->sec_len();
         }
     }
 }
@@ -33,13 +33,13 @@ unique_ptr<Cypher> CypherFactory::_get_cypher(const uint8_t *data, size_t data_l
     uint8_t *buf     = nullptr;
 
     for (auto const it : _cypher_map) {
-        buf_len = it.second->blk_len();
+        buf_len = it.second->sec_len();
         buf = (uint8_t *)malloc(buf_len);
         if (nullptr != buf) {
             memcpy(buf, data, buf_len);
 
             // decode the message
-            if (MSG_OK == it.second->dec(data, buf_len, buf)) {
+            if (MSG_OK == it.second->dec(data, buf, buf_len)) {
                 // verify the decrypted header
                 if (fw::FDAT::valid(buf)) {
                     // create the instance

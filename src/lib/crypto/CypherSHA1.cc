@@ -9,12 +9,12 @@ namespace fw {
 #define SHA1_DIGEST_LEN	20
 #endif
 
-MSG_CODE CypherSHA1::enc(const uint8_t *const data, const size_t data_len, uint8_t *buf) {
-    return crypt(data, buf, data_len);
+MSG_CODE CypherSHA1::enc(const uint8_t * const input, uint8_t *output, const size_t len) {
+    return crypt(input, output, len);
 }
 
-MSG_CODE CypherSHA1::dec(const uint8_t *const data, const size_t data_len, uint8_t *buf) {
-    return crypt(data, buf, data_len);
+MSG_CODE CypherSHA1::dec(const uint8_t * const input, uint8_t *output, const size_t len) {
+    return crypt(input, output, len);
 }
 
 MSG_CODE CypherSHA1::crypt(const uint8_t *const input, uint8_t *output, const size_t len) {

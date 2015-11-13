@@ -25,10 +25,10 @@ public:
     MSG_CODE dec_file(const string &file_name_in, const string &file_name_out);
     MSG_CODE enc_file(const string &file_name_in, const string &file_name_out);
 
-    virtual MSG_CODE enc(const uint8_t * const data, const size_t data_len, uint8_t *buf) = 0;
-    virtual MSG_CODE dec(const uint8_t * const data, const size_t data_len, uint8_t *buf) = 0;
+    virtual MSG_CODE enc(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
+    virtual MSG_CODE dec(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
 
-    virtual size_t blk_len() = 0;
+    virtual size_t sec_len() = 0;
     virtual unique_ptr<Cypher> create() = 0;
 
 protected:
@@ -37,6 +37,24 @@ protected:
 
         uint8_t *buf_in  = (uint8_t *)malloc(buf_len);
         uint8_t *buf_out = (uint8_t *)malloc(buf_len);
+
+        ret = _crypt(input, output, len, buf_in, buf_out, buf_len, func);
+
+        free(buf_in);
+        free(buf_out);
+
+        return ret;
+    }
+
+    static MSG_CODE _crypt(
+            const uint8_t *const input,
+                  uint8_t       *output,
+                  size_t         len,
+                  uint8_t       *buf_in,
+                  uint8_t       *buf_out,
+                  size_t         buf_len,
+                  auto           func) {
+        MSG_CODE ret = MSG_OK;
 
         const uint8_t *in  = input;
               uint8_t *out = output;
@@ -67,9 +85,6 @@ protected:
             in  += cur_len;
             out += cur_len;
         }
-
-        free(buf_in);
-        free(buf_out);
 
         return ret;
     }
