@@ -11,10 +11,6 @@ add_subdirectory(zlib)
 set(MINIZIP_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/minizip)
 add_subdirectory(minizip-cmake)
 
-# for cross-platform dirent.h
-set(DIRENT_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/dirent)
-add_subdirectory(dirent-cmake)
-
 # for decryption/encryption
 set(USE_STATIC_MBEDTLS_LIBRARY ON)
 set(USE_SHARED_MBEDTLS_LIBRARY OFF)
