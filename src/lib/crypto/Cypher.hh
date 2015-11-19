@@ -3,16 +3,16 @@
 
 #include <string>
 #include <string.h>
-#include <memory>
 #include <stddef.h>
 #include <stdint.h>
 #include <message_def.h>
-#include "../util/print_tool.h"
+
 
 namespace fw {
 
+
 using std::string;
-using std::unique_ptr;
+
 
 typedef enum {
     ENC_UNKNOWM = 0,
@@ -24,9 +24,6 @@ class Cypher {
 public:
     virtual MSG_CODE enc(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
     virtual MSG_CODE dec(const uint8_t * const input, uint8_t *output, const size_t len) = 0;
-
-    virtual size_t get_sec_len() = 0;
-    virtual unique_ptr<Cypher> create() = 0;
 
 protected:
     static MSG_CODE _crypt_buf(const uint8_t *const input, uint8_t *output, size_t len, size_t buf_len, auto func) {

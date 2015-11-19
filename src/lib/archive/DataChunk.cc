@@ -12,7 +12,6 @@
 namespace fw {
 
 
-
 void DataChunk::Header::read(const uint8_t * const data) {
     GET_U32_BE(len, data, 0);   // the first 4 bytes is the length, BIG-endian
     type = CHUNK_NAME_TO_TYPE((char *)data + 4);    // read type

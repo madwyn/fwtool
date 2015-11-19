@@ -8,8 +8,9 @@
 #include <string>
 #include <string.h>
 #include <stdint.h>
-#include "HeaderMagic.hh"
-#include "fdata_def.h"
+#include "../header/HeaderMagic.hh"
+#include "../header/fdata_def.h"
+#include "../util/print_tool.h"
 
 
 namespace fw {
@@ -22,17 +23,17 @@ public:
     static MSG_CODE dec(const string &file_name_in, const string &file_name_dec);
     static MSG_CODE enc(const string &file_name_in, const string &file_name_enc);
 
-    class Header : public HeaderMagic {
+    class Magic : public HeaderMagic {
     public:
-        Header(void) {
-            static const uint8_t header[] = "UDTRFIRM";
-            init(header, sizeof(header)-1);
+        Magic(void) {
+            static const uint8_t magic[] = FDAT_IMAGE_MAGIC;
+            init(magic, FDAT_IMAGE_MAGIC_LEN);
         }
     };
 
     static bool valid(const uint8_t * const data_dec) {
-        Header header;
-        return header.valid(data_dec + sizeof(FDAT_BLOCK_HEADER));
+        Magic magic;
+        return magic.valid(data_dec + sizeof(HEADER_U16_CSUM));
     }
 };
 

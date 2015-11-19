@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string>
 #include <message_def.h>
-#include "HeaderMagic.hh"
+#include "../header/HeaderMagic.hh"
 
 namespace fw {
 

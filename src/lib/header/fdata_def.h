@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define FDAT_IMAGE_MAGIC            "UDTRFIRM"
-#define FDAT_IMAGE_MAGIC_LEN	    (sizeof(FDAT_HEADER_MAGIC)-1)
+#define FDAT_IMAGE_MAGIC_LEN	    (sizeof(FDAT_IMAGE_MAGIC)-1)
 #define FDAT_IMAGE_MAGIC_OFFSET     0
 
 // plaintext data in block0 used to guess crypto method
@@ -17,6 +17,17 @@
 typedef struct {
     uint16_t csum;      // check sum
     uint16_t len;       // length, also servers as the end flag when len & 0x8000 != 0
-} FDAT_BLOCK_HEADER;
+} HEADER_U16_CSUM;
+
+
+// for 3. gen modified encryption debug version
+#define FDAT_IMAGE_HEADER_LEN 0x0200
+
+typedef struct {
+    HEADER_U16_CSUM v2;
+    uint8_t  magic[FDAT_IMAGE_MAGIC_LEN];   // magic
+    uint32_t crc;                           // length, also servers as the end flag when len & 0x8000 != 0
+} HEADER_U32_CRC;
+
 
 #endif //FWT_FDATA_DEF_H
