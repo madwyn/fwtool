@@ -13,9 +13,9 @@ MSG_CODE FDAT::dec(const std::string &file_name_in, const std::string &file_name
     MSG_CODE ret = MSG_OK;
 
     /**
-     * the 1st generation firmware uses SHA1
+     * the 1st generation uses SHA1
      * the 2nd generation uses AES
-     * the 3rd generation has an unknown structure
+     * the 3rd generation has an unknown AES key and structure
      */
     unique_ptr<Header> header = HeaderFactory::get(file_name_in);
 
@@ -40,11 +40,9 @@ MSG_CODE FDAT::dec(const std::string &file_name_in, const std::string &file_name
                     fread(buf_blk, 1, blk_len, file_in);
 
                     // decrypt it
-                    ret = header->_cypher->dec(buf_blk, buf_dec, blk_len);
+                    ret = header->dec(buf_blk, buf_dec, blk_len);
 
                     if (MSG_OK == ret) {
-                        // read header info
-                        header->_read(buf_dec);
                         // write content to file
                         fwrite(header->_payload, 1, header->_len_dec, file_out);
                     } else {

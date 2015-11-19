@@ -12,13 +12,11 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
 
     if (nullptr != buf) {
         // decode the message
-        if (MSG_OK == _cypher->dec(data_enc, buf, buf_len)) {
+        if (MSG_OK == dec(data_enc, buf, buf_len)) {
             Magic magic;
 
             // verify the decrypted header
             if (magic.valid(buf + sizeof(HEADER_U16_CSUM))) {
-                _read(buf);
-
                 ret = _valid(buf, data_len) ? MSG_OK : HEADER_INVALID;
             } else {
                 ret = HEADER_MAGIC_INVALID;
@@ -30,6 +28,17 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
         free(buf);
     } else {
         ret = HEADER_ALLOCATE_BUF_ERR;
+    }
+
+    return ret;
+}
+
+
+MSG_CODE Header::dec(const uint8_t *const input, uint8_t *output, const size_t len) {
+    MSG_CODE ret = _cypher->dec(input, output, len);
+
+    if (MSG_OK == ret) {
+        _read(output);
     }
 
     return ret;

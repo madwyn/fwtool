@@ -48,6 +48,7 @@ public:
     };
 
     MSG_CODE valid(const uint8_t *const data, const size_t data_len);
+    MSG_CODE dec  (const uint8_t *const input, uint8_t *output, const size_t len);
 
     virtual void _read (const uint8_t *const data) = 0;
     virtual void _write(      uint8_t       *data) const = 0;
