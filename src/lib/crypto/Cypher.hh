@@ -67,7 +67,7 @@ protected:
 
             // encrypt/dec 16 bit each time
             if (0 != func(in, out)) {
-                ret = CRYPTO_CYPHER_AES_CRYPT_ERR;
+                ret = CRYPTO_CYPHER_CRYPT_ERR;
                 break;
             }
 
