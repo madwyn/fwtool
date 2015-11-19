@@ -6,6 +6,7 @@
 #include "../header/Header.hh"
 #include "../header/HeaderFactory.hh"
 
+
 namespace fw {
 
 
@@ -75,5 +76,6 @@ MSG_CODE FDAT::enc(const std::string &file_name_in, const std::string &file_name
 
     return ret;
 }
+
 
 }
