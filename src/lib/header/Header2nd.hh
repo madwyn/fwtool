@@ -14,8 +14,8 @@ namespace fw {
 class Header2nd : public Header1st {
 public:
     Header2nd(void) {
-        gen    = GEN_2ND;
-        cypher = make_shared<CypherAES>();
+        _gen = GEN_2ND;
+        _cypher = make_shared<CypherAES>();
     }
 
     virtual size_t get_blk_len() const {

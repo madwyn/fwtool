@@ -15,13 +15,12 @@ using std::make_shared;
 class Header1st : public Header {
 public:
     Header1st(void) {
-        gen    = GEN_1ST;
-        cypher = make_shared<CypherSHA1>();
+        _gen    = GEN_1ST;
+        _cypher = make_shared<CypherSHA1>();
     }
 
     uint16_t _csum;
     uint16_t _len;
-    uint16_t _len_dec;
 
     virtual void _read(const uint8_t *const data);
     virtual void _write(uint8_t *data) const;

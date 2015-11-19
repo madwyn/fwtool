@@ -11,8 +11,8 @@ namespace fw {
 class Header3rd : public Header {
 public:
     Header3rd() {
-        gen    = GEN_3RD;
-        cypher = make_shared<CypherAES>();
+        _gen = GEN_3RD;
+        _cypher = make_shared<CypherAES>();
     }
 
     uint32_t _crc;

@@ -12,7 +12,7 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
 
     if (nullptr != buf) {
         // decode the message
-        if (MSG_OK == cypher->dec(data_enc, buf, buf_len)) {
+        if (MSG_OK == _cypher->dec(data_enc, buf, buf_len)) {
             Magic magic;
 
             // verify the decrypted header

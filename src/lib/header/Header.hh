@@ -27,12 +27,14 @@ using std::make_unique;
 
 class Header {
 public:
-    shared_ptr<Cypher> cypher = nullptr;
-    HDR_GEN            gen    = GEN_UNKNOWM;
+    shared_ptr<Cypher> _cypher  = nullptr;
+    HDR_GEN            _gen     = GEN_UNKNOWM;
+    size_t             _len_dec = 0;
 
     Header(void) {
-        gen    = GEN_UNKNOWM;
-        cypher = nullptr;
+        _gen     = GEN_UNKNOWM;
+        _cypher  = nullptr;
+        _len_dec = 0;
     }
 
     class Magic : public HeaderMagic {
@@ -49,7 +51,7 @@ public:
     virtual void _write(      uint8_t       *data) const = 0;
     virtual bool _valid(const uint8_t *const data, const size_t data_len) const = 0;
     virtual unique_ptr<Header> create() = 0;
-    virtual size_t get_blk_len() const = 0;
+    virtual size_t get_blk_len() const  = 0;
 };
 
 
