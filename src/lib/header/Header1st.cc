@@ -16,6 +16,7 @@ void Header1st::_read(const uint8_t *const data) {
     GET_U16_LE(_csum, data, 0);
     GET_U16_LE(_len, data + sizeof(_csum), 0);
     _len_dec = (_len & (uint16_t)0x0FFF);
+    _payload = (uint8_t *)data + sizeof(HEADER_U16_CSUM);
 }
 
 

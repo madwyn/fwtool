@@ -30,11 +30,13 @@ public:
     shared_ptr<Cypher> _cypher  = nullptr;
     HDR_GEN            _gen     = GEN_UNKNOWM;
     size_t             _len_dec = 0;
+    uint8_t           *_payload = nullptr;
 
     Header(void) {
         _gen     = GEN_UNKNOWM;
         _cypher  = nullptr;
         _len_dec = 0;
+        _payload = nullptr;
     }
 
     class Magic : public HeaderMagic {

@@ -46,7 +46,7 @@ MSG_CODE FDAT::dec(const std::string &file_name_in, const std::string &file_name
                         // read header info
                         header->_read(buf_dec);
                         // write content to file
-                        fwrite(buf_dec, 1, header->_len_dec, file_out);
+                        fwrite(header->_payload, 1, header->_len_dec, file_out);
                     } else {
                         break;
                     }
