@@ -9,9 +9,12 @@
 #include <string.h>
 #include <dirent.h>
 
+
 namespace fw {
 
+
 using namespace std;
+
 
 inline bool
 fs_exists(const string &name) {
@@ -154,6 +157,7 @@ inline string
 get_dir_name(const string &path_full) {
     return path_full.substr(0, rfind_slash(path_full.c_str()) - path_full.c_str());
 }
+
 
 }
 

@@ -48,7 +48,7 @@
             "Extract everything from the firmware updater.\n" \
 			"Arguments:\n" \
 			"--input, required\n" \
-				"\tFirmware updater for Windows (*.exe).\n" \
+				"\tFirmware updater for Windows (*.exe), or the FirmwareData_XXX.dat file.\n" \
 			"--output, optional\n" \
 				"\tThe directory for extracting."
 

@@ -59,7 +59,7 @@ unpack(const char *const file_in, const char *const dir_out) {
 
                 string file_name_FDAT_dec = file_name_FDAT + ".dec";
 
-                g_pack_err = fw::FDAT::dec(file_name_FDAT, file_name_FDAT_dec);
+                g_pack_err = FDAT::dec(file_name_FDAT, file_name_FDAT_dec);
 
                 if (MSG_OK == g_pack_err) {
                     // extract the FDAT image

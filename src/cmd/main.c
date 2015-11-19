@@ -5,9 +5,7 @@
 #include <pack.h>
 
 
-int
-main(int argc, char **argv) {
-
+int main(int argc, char **argv) {
     int ret = 0;
 
     // working mode
@@ -38,8 +36,8 @@ main(int argc, char **argv) {
     ret |= cargo_add_mutex_group(cargo, CARGO_MUTEXGRP_ONE_REQUIRED, OPT_GRP_MODE, "Working Mode", "The working mode");
 
     ret |= cargo_add_option(cargo, 0, OPT_MODE_ADV_HELP_F, MSG_MODE_ADV_HELP, "b", &adv_help);
-    ret |= cargo_add_option(cargo, 0, OPT_MODE_EXTRACT_F, MSG_MODE_EXTRACT,  "b", &extract);
-    ret |= cargo_add_option(cargo, 0, OPT_MODE_CREATE_F, MSG_MODE_CREATE,   "b", &create);
+    ret |= cargo_add_option(cargo, 0, OPT_MODE_EXTRACT_F , MSG_MODE_EXTRACT , "b", &extract);
+    ret |= cargo_add_option(cargo, 0, OPT_MODE_CREATE_F  , MSG_MODE_CREATE  , "b", &create);
 
     ret |= cargo_mutex_group_add_option(cargo, OPT_GRP_MODE, OPT_MODE_ADV_HELP);
     ret |= cargo_mutex_group_add_option(cargo, OPT_GRP_MODE, OPT_MODE_EXTRACT);
@@ -48,7 +46,7 @@ main(int argc, char **argv) {
     // input parameters
     ret |= cargo_add_group(cargo, 0, OPT_GRP_IO, "Input and output parameters", "They have different meanings depending on working mode.");
 
-    ret |= cargo_add_option(cargo, 0, OPT_IN_F,  MSG_IO_IN,  "s", &input);
+    ret |= cargo_add_option(cargo, 0, OPT_IN_F , MSG_IO_IN , "s", &input);
     ret |= cargo_add_option(cargo, 0, OPT_OUT_F, MSG_IO_OUT, "s", &output);
 
     ret |= cargo_group_add_option(cargo, OPT_GRP_IO, OPT_IN);
