@@ -51,6 +51,11 @@ MSG_CODE FDAT::dec(const std::string &file_name_in, const std::string &file_name
                         break;
                     }
                 }
+
+                free(buf_blk);
+                free(buf_dec);
+                fclose(file_in);
+                fclose(file_out);
             } else {
                 ret = FDAT_FILE_SIZE_NOT_MATCH_ENCRYPT_BLOCK_SIZE;
             }
