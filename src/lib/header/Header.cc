@@ -1,5 +1,8 @@
 #include "Header.hh"
-#include "fdata_def.h"
+#include "fdat_def.h"
+#include "../archive/UDRFIRM.hh"
+#include "../util/print_tool.h"
+#include "HeaderImage.hh"
 
 
 namespace fw {
@@ -11,17 +14,24 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
     uint8_t *buf     = (uint8_t *)malloc(buf_len);
 
     if (nullptr != buf) {
-        // decode the message
-        if (MSG_OK == dec(data_enc, buf, buf_len)) {
-            Magic magic;
+        printf("gen: %d\n", _gen);
+        p_range_b(data_enc, buf_len);
 
-            // verify the decrypted header
-            if (magic.valid(buf + sizeof(HEADER_U16_CSUM))) {
+        ret = dec(data_enc, buf, buf_len);
+
+        // decode the message
+        if (MSG_OK == ret) {
+            p_range_b(buf, buf_len);
+            assert(nullptr != _payload);
+            // verify the decrypted header, the first sector
+            if (HeaderImage::valid(_payload)) {
                 ret = _valid(buf, data_len) ? MSG_OK : HEADER_INVALID;
             } else {
+                printf("invalid header\n");
                 ret = HEADER_MAGIC_INVALID;
             }
         } else {
+            printf("decrypt error: %s\n", gm(ret));
             ret = HEADER_DECRYPT_ERR;
         }
 
@@ -44,5 +54,9 @@ MSG_CODE Header::dec(const uint8_t *const input, uint8_t *output, const size_t l
     return ret;
 }
 
+
+void Header::write(FILE *file) {
+    fwrite(_payload, 1, _len_dec, file);
+}
 
 }

@@ -6,7 +6,7 @@
 
 #include "../crypto/Cypher.hh"
 #include "HeaderMagic.hh"
-#include "fdata_def.h"
+#include "fdat_def.h"
 
 
 namespace fw{
@@ -39,16 +39,10 @@ public:
         _payload = nullptr;
     }
 
-    class Magic : public HeaderMagic {
-    public:
-        Magic(void) {
-            static const uint8_t magic[] = FDAT_IMAGE_MAGIC;
-            init(magic, sizeof(magic)-1);
-        }
-    };
-
     MSG_CODE valid(const uint8_t *const data, const size_t data_len);
     MSG_CODE dec  (const uint8_t *const input, uint8_t *output, const size_t len);
+
+    void write(FILE *file);
 
     virtual void _read (const uint8_t *const data) = 0;
     virtual void _write(      uint8_t       *data) const = 0;

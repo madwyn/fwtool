@@ -8,7 +8,10 @@ set(fw_archive_SRCS
         archive/DataChunk.cc
         archive/DataChunk.hh
         archive/FDAT.cc
-        archive/FDAT.hh)
+        archive/FDAT.hh
+        archive/UDRFIRM.cc
+        archive/UDRFIRM.hh
+        )
 
 set(fw_crypto_SRCS
         crypto/Cypher.hh
@@ -27,7 +30,7 @@ set(fw_header_SRCS
         header/Header3rd.cc
         header/Header3rd.hh
         header/HeaderFactory.cc
-        header/HeaderFactory.hh)
+        header/HeaderFactory.hh header/fdat_image_def.c header/HeaderImage.cc header/HeaderImage.hh)
 
 set(libfwtool_SRCS
         pack.cc

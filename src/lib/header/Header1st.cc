@@ -1,14 +1,16 @@
 #include "Header1st.hh"
 #include "../util/endian.h"
 #include "../util/checksum.h"
+#include "fdat_def.h"
 
 
 namespace fw {
 
 
 bool Header1st::_valid(const uint8_t *const data, const size_t data_len) const {
-    // calculate check sum, skip the csum, start from the 3rd byte
-    return (csum_LEU16_U16(data + sizeof(uint16_t), get_blk_len()) == _csum);
+    const HEADER_U16_CSUM *header = (const HEADER_U16_CSUM *)data;
+    // calculate check sum, skip csum, start from the 3rd byte
+    return (csum_LEU16_U16((const uint8_t *)&(header->len), get_blk_len() - sizeof(header->csum)) == _csum);
 }
 
 

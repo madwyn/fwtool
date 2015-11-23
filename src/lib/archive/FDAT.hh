@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdint.h>
 #include "../header/HeaderMagic.hh"
-#include "../header/fdata_def.h"
 #include "../util/print_tool.h"
 
 
