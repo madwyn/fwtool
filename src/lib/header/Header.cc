@@ -14,20 +14,19 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
     uint8_t *buf     = (uint8_t *)malloc(buf_len);
 
     if (nullptr != buf) {
-        printf("gen: %d\n", _gen);
-        p_range_b(data_enc, buf_len);
-
         ret = dec(data_enc, buf, buf_len);
 
         // decode the message
         if (MSG_OK == ret) {
-            p_range_b(buf, buf_len);
             assert(nullptr != _payload);
             // verify the decrypted header, the first sector
-            if (HeaderImage::valid(_payload)) {
+            HeaderImage headerImage;
+            headerImage.read(_payload);
+
+            if (headerImage.valid(_payload, _len_dec)) {
+                // validate the FDAT header
                 ret = _valid(buf, data_len) ? MSG_OK : HEADER_INVALID;
             } else {
-                printf("invalid header\n");
                 ret = HEADER_MAGIC_INVALID;
             }
         } else {

@@ -9,8 +9,9 @@
 namespace fw {
 
 
-#define    FDAT_HDR_VERSION_LEN    4
-#define    MAX_FDAT_FS_IMAGES      28
+#define FDAT_HDR_VERSION_LEN    4
+#define MAX_FDAT_FS_IMAGES      28
+#define FDAT_IMAGE_HDR_LEN      0x200
 
 
 typedef struct {
@@ -49,7 +50,10 @@ typedef struct {
 
 class HeaderImage {
 public:
-    static bool valid(const uint8_t *const data);
+    uint32_t _crc = 0;
+
+    void read(const uint8_t *const data);
+    bool valid(const uint8_t *const data, const size_t data_len);
 };
 
 
