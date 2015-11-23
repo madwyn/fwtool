@@ -33,26 +33,29 @@ MSG_CODE CypherSHA1::crypt(const uint8_t *const input, uint8_t *output, const si
             0x12, 0xF0, 0xDC, 0x49
     };
 
-    mbedtls_sha1_context ctx;
-    mbedtls_sha1_init(&ctx);
+    if (!_ready) {
+        mbedtls_sha1_init(&_ctx);
 
-    // set key
-    mbedtls_sha1_starts(&ctx);
-    mbedtls_sha1_update(&ctx, seed_1, SHA1_DIGEST_LEN);
-    mbedtls_sha1_update(&ctx, seed_2, SHA1_DIGEST_LEN);
+        // set key
+        mbedtls_sha1_starts(&_ctx);
+        mbedtls_sha1_update(&_ctx, seed_1, SHA1_DIGEST_LEN);
+        mbedtls_sha1_update(&_ctx, seed_2, SHA1_DIGEST_LEN);
+
+        _ready = true;
+    }
 
     uint8_t sha_digest[SHA1_DIGEST_LEN];
 
-    auto _crypt = [&ctx, &sha_digest](const uint8_t *const in, uint8_t *out) {
+    auto _crypt = [this, &sha_digest](const uint8_t *const in, uint8_t *out) {
         // get the latest sha-1 digest (result used to xor data buffer)
-        mbedtls_sha1_finish(&ctx, sha_digest);
+        mbedtls_sha1_finish(&_ctx, sha_digest);
 
         // use the newly calculated digest, along with "Decrypt_sha1_seed_2"
         // to start a new sha-1 calculation (resulting digest will be used
         // next time through this loop)
-        mbedtls_sha1_starts(&ctx);
-        mbedtls_sha1_update(&ctx, sha_digest, SHA1_DIGEST_LEN);
-        mbedtls_sha1_update(&ctx, seed_2,     SHA1_DIGEST_LEN);
+        mbedtls_sha1_starts(&_ctx);
+        mbedtls_sha1_update(&_ctx, sha_digest, SHA1_DIGEST_LEN);
+        mbedtls_sha1_update(&_ctx, seed_2, SHA1_DIGEST_LEN);
 
         const uint8_t *p_in = in;
 

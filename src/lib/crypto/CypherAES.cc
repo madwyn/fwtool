@@ -30,18 +30,20 @@ MSG_CODE CypherAES::crypt(const uint8_t *const input, uint8_t *output, const siz
     MSG_CODE ret = MSG_OK;
     int ret_crypt = 0;
 
-    mbedtls_aes_context ctx;
+    if (_mode != mode) {
+        // set key
+        if (MBEDTLS_AES_ENCRYPT == mode) {
+            ret_crypt = mbedtls_aes_setkey_enc(&_ctx, key, sizeof(key) * 8);
+        } else {
+            ret_crypt = mbedtls_aes_setkey_dec(&_ctx, key, sizeof(key) * 8);
+        }
 
-    // set key
-    if (MBEDTLS_AES_ENCRYPT == mode) {
-        ret_crypt = mbedtls_aes_setkey_enc(&ctx, key, sizeof(key)*8);
-    } else {
-        ret_crypt = mbedtls_aes_setkey_dec(&ctx, key, sizeof(key)*8);
+        _mode = mode;
     }
 
     if (0 == ret_crypt) {
-        auto _crypt = [&mode, &ctx](const uint8_t *const in, uint8_t *out) {
-            return mbedtls_aes_crypt_ecb(&ctx, mode, in, out);
+        auto _crypt = [this, &mode](const uint8_t *const in, uint8_t *out) {
+            return mbedtls_aes_crypt_ecb(&_ctx, mode, in, out);
         };
 
         ret = _crypt_buf(input, output, len, AES_BLOCK_LEN, _crypt);
