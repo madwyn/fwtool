@@ -23,7 +23,7 @@ MSG_CODE Header::valid(const uint8_t *const data_enc, const size_t data_len) {
             HeaderImage headerImage;
             headerImage.read(_payload);
 
-            if (headerImage.valid(_payload, _len_dec)) {
+            if (headerImage.valid(_payload)) {
                 // validate the FDAT header
                 ret = _valid(buf, data_len) ? MSG_OK : HEADER_INVALID;
             } else {
@@ -57,5 +57,6 @@ MSG_CODE Header::dec(const uint8_t *const input, uint8_t *output, const size_t l
 void Header::write(FILE *file) {
     fwrite(_payload, 1, _len_dec, file);
 }
+
 
 }

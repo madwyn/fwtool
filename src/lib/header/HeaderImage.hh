@@ -53,7 +53,7 @@ public:
     uint32_t _crc = 0;
 
     void read(const uint8_t *const data);
-    bool valid(const uint8_t *const data, const size_t data_len);
+    bool valid(const uint8_t *const data);
 };
 
 

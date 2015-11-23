@@ -8,7 +8,7 @@
 namespace fw {
 
 
-bool HeaderImage::valid(const uint8_t *const data, const size_t data_len) {
+bool HeaderImage::valid(const uint8_t *const data) {
     bool ret = false;
 
     const FDAT_IMAGE_HEADER *header = (const FDAT_IMAGE_HEADER *)data;
