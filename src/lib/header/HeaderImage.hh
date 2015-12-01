@@ -50,7 +50,10 @@ typedef struct {
 
 class HeaderImage {
 public:
-    uint32_t _crc = 0;
+    uint32_t _crc           = 0;
+    uint32_t _len           = 0;
+    uint32_t _offset        = 0;
+    uint32_t _image_count   = 0;
 
     void read(const uint8_t *const data);
     bool valid(const uint8_t *const data);

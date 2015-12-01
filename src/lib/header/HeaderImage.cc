@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "HeaderImage.hh"
 #include "../util/print_tool.h"
+#include "../util/endian.h"
 
 
 namespace fw {
@@ -36,7 +37,13 @@ bool HeaderImage::valid(const uint8_t *const data) {
 
 
 void HeaderImage::read(const uint8_t *const data) {
-    _crc = ((FDAT_IMAGE_HEADER *)data)->header_crc;
+    FDAT_IMAGE_HEADER *header = (FDAT_IMAGE_HEADER *)data;
+
+    _crc = header->header_crc;
+
+    GET_U32_LE(_len        , (uint8_t *)(&(header->fw_length)), 0);
+    GET_U32_LE(_offset     , (uint8_t *)(&(header->fw_offset)), 0);
+    GET_U32_LE(_image_count, (uint8_t *)(&(header->fw_length)), 0);
 }
 
 
